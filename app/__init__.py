@@ -42,8 +42,11 @@ from app.languages import GUI as LANGUAGES
 
 
 def create_app():
-    app = Flask(__name__, static_folder=r_path('static'),
-                template_folder=r_path('templates'))
+    app = Flask(
+        __name__,
+        static_folder=r_path('static'),
+        template_folder=r_path('templates')
+    )
     if getattr(sys, 'frozen', False):
         basedir = os.path.dirname(sys.executable)
     else:
@@ -60,6 +63,7 @@ def create_app():
     app.config['UPLOADED_FILES_DEST'] = r_path('static/multimedia')
     app.config['UPLOADED_FILES_ALLOW'] = mdal
     app.config['SECRET_KEY'] = os.urandom(24)
+    app.config['DEBUG'] = 1
     # Intiating extensions before registering blueprints
     moment = Moment(app)
     qrc = QRcode(app)
@@ -76,7 +80,7 @@ def create_app():
         'static/css/webfont.select.css'
     ])
     lessc(app)
-    minify(app, js=True, cache=True, fail_safe=True)
+    # minify(app, js=True, cache=True, fail_safe=True)
     gtts(app=app, route=True)
     gtranslator.init_app(app)
     # Register blueprints

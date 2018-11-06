@@ -6,11 +6,11 @@ from app.getWithAlias import getWithAlias
 
 # flash msgs list
 flashMessages = [
-    'Error: only administrator can access the page',
+    'Error: only administrator can access the page',  # 0
     'Error: only main Admin account can access the page',
     'Notice: admin password has been updated.',
     'Notice: settings have been updated .',
-    'Error: wrong entry, something went wrong',
+    'Error: wrong entry, something went wrong',  # 4
     "Error: user name already exists, choose another name",
     "Notice: user has been added .",
     "Error: user selected does not exist, something wrong !",
@@ -23,12 +23,12 @@ flashMessages = [
     "Notice: logout is done.",
     "Error: operator not assigned by admin yet !",
     "Notice: logged-in and all good",
-    "Error: wrong user name or password",
+    "Error: wrong user name or password",  # 17
     "Error: operators are not allowed to access the page ",
     'Error: you must have available printer, to use printed',
     "Notice: make sure that printer is properly connected",
     "Error: the office is already resetted",
-    "Notice: office has been resetted. ..",
+    "Notice: office has been resetted. ..",  # 22
     "Error: the task is already resetted",
     "Notice: task has been resetted. ..",
     "Error: no tickets left to pull from ..",
@@ -44,7 +44,7 @@ flashMessages = [
     "Notice: All slides removed.",
     "Error: you have reached the limit of capacity size allowed ",
     "Error: you have reached the amount limit of multimedia files ",
-    "Notice: if you followed the rules, it should be uploaded ..",
+    "Notice: if you followed the rules, it should be uploaded ..",  # 40
     "Error: there is no unused multimedia file to be removed !",
     "Notice: multimedia file been removed.",
     "Notice: Display customization has been updated. ..",
@@ -54,14 +54,14 @@ flashMessages = [
     "Notice: new office been added . ",
     "Error: you must reset it, before you delete it ",
     "Notice: office and its all tasks been deleted ",
-    "Error: fault in search parameters",
+    "Error: fault in search parameters",  # 50
     "Notice: Sorry, no matching results were found ",
     "Notice: task has been updated .",
     "Notice: task has been deleted .",
     "Notice: New task been added.",
     "Error: No offices exist to delete",
     "Error: No tasks exist to be resetted",
-    "Error: file uploaded is too large ",
+    "Error: file uploaded is too large ",  # 57
     "Error: something wrong , or the page is non-existing",
     "Notice: Make sure to make the printer shared on the local network",
     "Notice: Make sure to execute the command `sudo gpasswd -a $(users) lp` and reboot the system",

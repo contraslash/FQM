@@ -60,6 +60,7 @@ class Serial(db.Model):
         self.p = p
         self.pulledBy = pulledBy
 
+
 class Waiting(db.Model):
     __tablename__ = "waitings"
     id = db.Column(db.Integer, primary_key=True)

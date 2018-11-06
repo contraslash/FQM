@@ -28,6 +28,15 @@
 > 3. `pip2.7 install -r requirements.txt` <br />
 > 4. `python2.7 run.py` <br />
 
+#### - Mac and conda
+```bash
+conda create --name FQM 
+source activate FQM
+conda install -c conda-forge pyside pillow gevent greenlet>=0.4.14
+pip install -r requirements_mac_conda.txt
+
+```
+
 #### - With executable:
 > You can get an executable that's suitable to your OS from : <br />
 > - https://fqms.github.io/#download <br />

@@ -71,25 +71,36 @@ def all_offices():
 def offices(o_id):
     ofc = data.Office.query.filter_by(id=o_id).first()
     if ofc is None:
-        flash(get_lang(4),
-              "danger")
+        flash(
+            get_lang(4),
+            "danger"
+        )
         return redirect(url_for("manage_app.all_offices"))
     if current_user.role_id == 3 and data.Operators.query.filter_by(id=current_user.id).first() is None:
-        flash(get_lang(17),
-              "danger")
+        flash(
+            get_lang(17),
+            "danger"
+        )
         return redirect(url_for('core.root'))
     form = forms.Offices_a(upd=ofc.prefix, defLang=session.get('lang'))
     page = request.args.get('page', 1, type=int)
     if page > int(data.Serial.query.filter_by(office_id=o_id).count() / 10) + 1:
-        flash(get_lang(4),
-              'danger')
+        flash(
+            get_lang(4),
+            'danger'
+        )
         return redirect(url_for('manage_app.offices', o_id=o_id))
     pagination = data.Serial.query.filter_by(
-        office_id=o_id).order_by(data.
-                                 Serial.p).order_by(data.Serial
-                                                    .number.desc()).paginate(
-                                                        page, per_page=10,
-                                                        error_out=False)
+        office_id=o_id
+    ).order_by(
+        data.Serial.p
+    ).order_by(
+        data.Serial.number.desc()
+    ).paginate(
+        page,
+        per_page=10,
+        error_out=False
+    )
     if form.validate_on_submit():
         mka = data.Office.query.filter_by(name=form.name.data)
         for f in mka:
@@ -105,6 +116,7 @@ def offices(o_id):
         return redirect(url_for('manage_app.offices', o_id=o_id))
     form.name.data = ofc.name
     form.prefix.data = ofc.prefix.upper()
+    print()
     return render_template('offices.html',
                            form=form,
                            officesp=pagination.items,
@@ -292,16 +304,25 @@ def task(o_id):
     form = forms.Task_a(session.get('lang'))
     task = data.Task.query.filter_by(id=o_id).first()
     if task is None:
-        flash(get_lang(4),
-              "danger")
+        # Check if ths task exists
+        flash(
+            get_lang(4),
+            "danger"
+        )
         return redirect(url_for("core.root"))
     if current_user.role_id == 3 and data.Operators.query.filter_by(id=current_user.id).first() is None:
-        flash(get_lang(17),
-              "danger")
+        # Operator does not have right
+        flash(
+            get_lang(17),
+            "danger"
+        )
         return redirect(url_for('core.root'))
     if current_user.role_id == 3 and task.office_id != data.Operators.query.filter_by(id=current_user.id).first().office_id:
-        flash(get_lang(17),
-              "danger")
+        # Operator does not have access to the office
+        flash(
+            get_lang(17),
+            "danger"
+        )
         return redirect(url_for('core.root'))
     ofc = data.Office.query.filter_by(id=task.office_id).first()
     page = request.args.get('page', 1, type=int)

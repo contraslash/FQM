@@ -202,25 +202,55 @@ def serial(t_id):
 @core.route('/serial_r/<int:o_id>')
 @login_required
 def serial_r(o_id):
+    """
+    Seems like this function reset an office
+    :param o_id:
+    :return:
+    """
     if data.Office.query.filter_by(id=o_id).first() is None:
-        flash(get_lang(4), "danger")
+        # The office does not exists
+        flash(
+            get_lang(4),
+            "danger"
+        )
         return redirect(url_for("manage_app.all_offices"))
     sr = data.Serial.query.filter_by(office_id=o_id)
     if current_user.role_id == 3 and data.Operators.query.filter_by(id=current_user.id).first() is None:
-        flash(get_lang(17),
-              "danger")
+        # Also seems like an user of type operator cannot reset the counter
+        flash(
+            get_lang(17),
+            "danger"
+        )
         return redirect(url_for('core.root'))
     if current_user.role_id == 3 and o_id != data.Operators.query.filter_by(id=current_user.id).first().office_id:
-        flash(get_lang(17),
-              "danger")
+        # Same idea
+        flash(
+            get_lang(17),
+            "danger"
+        )
+        return redirect(url_for('core.root'))
+
+    # Moreover, just admin could performance this action
+    if not current_user.role_id == 1:
+        # Same idea
+        flash(
+            get_lang(17),
+            "danger"
+        )
         return redirect(url_for('core.root'))
     if sr.first() is None:
-        flash(get_lang(21),
-              "danger")
+        # There is not tickets
+        flash(
+            get_lang(21),
+            "danger"
+        )
         return redirect(url_for("manage_app.offices", o_id=o_id))
     for f in sr:
-        w = data.Waiting.query.filter_by(office_id=f.office_id,
-                                         number=f.number).first()
+        # Delete all tickets
+        w = data.Waiting.query.filter_by(
+            office_id=f.office_id,
+            number=f.number
+        ).first()
         db.session.delete(f)
         if w is not None:
             db.session.delete(w)
@@ -260,22 +290,47 @@ def serial_ra():
 @core.route('/serial_rt/<int:t_id>')
 @login_required
 def serial_rt(t_id):
+    """
+    Seems like this is for delete all tickets on a task
+    :param t_id:
+    :return:
+    """
     if data.Task.query.filter_by(id=t_id).first() is None:
-        flash(get_lang(54), "danger")
+        flash(
+            get_lang(54),
+            "danger"
+        )
         return redirect(url_for("manage_app.all_offices"))
     sr = data.Serial.query.filter_by(task_id=t_id)
     if current_user.role_id == 3 and data.Operators.query.filter_by(id=current_user.id).first() is None:
-        flash(get_lang(17),
-              "danger")
+        # User is not operator
+        flash(
+            get_lang(17),
+            "danger"
+        )
         return redirect(url_for('core.root'))
     if current_user.role_id == 3 and t_id != data.Operators.query.filter_by(id=current_user.id).first().office_id:
-        flash(get_lang(17),
-              "danger")
+        # Operator does not belong to this office
+        flash(
+            get_lang(17),
+            "danger"
+        )
         return redirect(url_for('core.root'))
     if sr.first() is None:
-        flash(get_lang(23),
-              "danger")
+        # There are not tickets
+        flash(
+            get_lang(23),
+            "danger"
+        )
         return redirect(url_for("manage_app.task", o_id=t_id))
+    # Moreover, just admin could performance this action
+    if not current_user.role_id == 1:
+        # Same idea
+        flash(
+            get_lang(17),
+            "danger"
+        )
+        return redirect(url_for('core.root'))
     for f in sr:
         w = data.Waiting.query.filter_by(office_id=f.office_id,
                                          number=f.number).first()
